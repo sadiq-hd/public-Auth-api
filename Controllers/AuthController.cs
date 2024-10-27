@@ -303,6 +303,7 @@ namespace api.Controllers
         // Get user by ID
         [HttpGet("user/id/{id}")]
         public async Task<IActionResult> GetUserById(int id)
+
         {
             var user = await _userService.GetUserById(id);
             if (user == null)
@@ -316,6 +317,39 @@ namespace api.Controllers
 
             return Ok(user);
         }
+
+        [HttpGet("user/phone/{phoneNumber}")]
+        public async Task<IActionResult> GetUser(string phoneNumber)
+        {
+            var user = await _userService.GetUser(phoneNumber);
+            if (user == null)
+                return NotFound("User not found.");
+
+            return Ok(user);
+        }
+
+        [HttpGet("user/email/{email}")]
+        public async Task<IActionResult> GetUserByEmail(string email)
+        {
+            var user = await _userService.GetUserByEmail(email);
+            if (user == null)
+                return NotFound("User not found.");
+
+            return Ok(user);
+        }
+
+        [HttpDelete("user/phone/{phoneNumber}")]
+        public async Task<IActionResult> DeleteUser(string phoneNumber)
+        {
+            var result = await _userService.DeleteUser(phoneNumber);
+            if (!result.Success)
+                return NotFound(result.Message);
+
+            return Ok(new { Message = "User deleted successfully." });
+        }
+
+
+
 
         // Delete user by ID
         [HttpDelete("user/id/{id}")]
